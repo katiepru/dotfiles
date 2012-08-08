@@ -102,7 +102,6 @@ function bashmod() {
 		fi
 	done
 	IFS=" "
-	echo $DIR
 	if [ "$1" == "main" ]; then
 		vim -c "set syn=sh" $BASHDIR
 	elif [ "$1" == "local" ]; then
@@ -162,11 +161,6 @@ alias ..="cd .."
 alias vi="vim"
 alias v="vim"
 alias me="cd ~;ls"
-
-#aliases for roundcube things
-alias confdir="pushd ~/public_html/roundcube/branches/roundcubemail/ocnfig/"
-alias olddir="pushd ~/public_html/roundcube/branches/0.4/src/"
-alias branchdir="pushd ~/public_html/roundcube/branches/"
 
 #ssh aliases
 alias facade="ssh facade.rutgers.edu"
