@@ -5,7 +5,11 @@ export PATH="$PATH:/sbin"
 
 parse_git_branch() {
 	TMPRET=$?
-	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+	TEXT=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
+	if [ "$TEXT" != "" ]; then
+		TEXT="[$TEXT"
+	fi
+	echo $TEXT
 	return $TMPRET
 }
 
@@ -32,6 +36,9 @@ function parse_git_dirty {
 	fi
 	if [ "${renamed}" == "0" ]; then
 		bits="${bits}>"
+	fi
+	if [ "${bits}" != "" ]; then
+		bits="${bits}]"
 	fi
 	echo "${bits}"
 	return $TMPRET
@@ -71,7 +78,7 @@ function user_col() {
 #PS1="[\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]] \`parse_git_branch\`\`parse_git_dirty\` \$ \[\033[01;31m\]❤ \[\e[m\]"
 #export PS1="[\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]] \`parse_git_branch\`\`parse_git_dirty\` \$ \[\033[01;31m\]\`nonzero_return\` \[\e[m\]"
 #export PS1="[\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]] \`parse_git_branch\`\`parse_git_dirty\` \$ \[\033[01;31m\]\`nonzero_return\` \[\e[m\]"
-export PS1="\[`user_col`\]\u\[\033[00m\]\[\033[01;32m\]@\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\] \[\033[38;5;214;01m\][ \`parse_git_branch\`\`parse_git_dirty\` ]\[\033[00m\] \$ \[\033[01;31m\]\`nonzero_return\` \[\e[m\]"
+export PS1="\[`user_col`\]\u\[\033[00m\]\[\033[01;32m\]@\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\] \[\033[38;5;214;01m\]\`parse_git_branch\`\`parse_git_dirty\`\[\033[00m\] \$ \[\033[01;31m\]\`nonzero_return\` \[\e[m\]"
 
 
 
