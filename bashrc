@@ -140,6 +140,13 @@ function swapkey() {
 
 swapkey &> /dev/null
 
+function toplevel() {
+	if [ "$1" != "" ]; then
+		echo "cd to base dir of git repo"
+	fi
+	cd `git rev-parse --show-toplevel`
+}
+
 #program shortcuts
 alias bashsave="source ~/.bashrc"
 alias vmod="vim ~/.vimrc"
