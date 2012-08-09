@@ -58,7 +58,7 @@ then
 	cp $f/ssh_config ~/.ssh/config
 fi
 
-IGNORE="bashrc|ssh|init|gitignore"
+IGNORE="bashrc|ssh|init|gitignore|README"
 
 for file in $(git ls-files | egrep -v $IGNORE)
 do
