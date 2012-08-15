@@ -17,11 +17,11 @@ parse_git_branch() {
 function parse_git_dirty {
 	TMPRET=$?
 	status=`git status 2> /dev/null`
-	dirty=`echo -n "${status}" 2> /dev/null | grep -q "modified:" 2> /dev/null; echo "$?"`
-	untracked=`echo -n "${status}" 2> /dev/null | grep -q "Untracked files" 2> /dev/null; echo "$?"`
-	ahead=`echo -n "${status}" 2> /dev/null | grep -q "Your branch is ahead of" 2> /dev/null; echo "$?"`
-	newfile=`echo -n "${status}" 2> /dev/null | grep -q "new file:" 2> /dev/null; echo "$?"`
-	renamed=`echo -n "${status}" 2> /dev/null | grep -q "renamed:" 2> /dev/null; echo "$?"`
+	dirty=`echo -n "${status}" 2> /dev/null | grep "modified:" &> /dev/null; echo "$?"`
+	untracked=`echo -n "${status}" 2> /dev/null | grep "Untracked files" &> /dev/null; echo "$?"`
+	ahead=`echo -n "${status}" 2> /dev/null | grep "Your branch is ahead of" &> /dev/null; echo "$?"`
+	newfile=`echo -n "${status}" 2> /dev/null | grep "new file:" &> /dev/null; echo "$?"`
+	renamed=`echo -n "${status}" 2> /dev/null | grep "renamed:" &> /dev/null; echo "$?"`
 	bits=''
 	if [ "${dirty}" == "0" ]; then
 		bits="${bits}⚡"
@@ -55,7 +55,7 @@ nonzero_return() {
 ISROOT=""
 
 function isroot() {
-	if id | cut -d' ' -f1 | grep -iq 'root'; then
+	if id | cut -d' ' -f1 | grep -i 'root' &> /dev/null; then
 		ISROOT=true
 	else
 		ISROOT=false
