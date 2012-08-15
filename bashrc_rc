@@ -1,4 +1,4 @@
 #aliases for roundcube things
-alias confdir="pushd ~/public_html/roundcube/branches/roundcubemail/config/"
-alias olddir="pushd ~/public_html/roundcube/roundcube4/src/"
-alias newdir="pushd ~/public_html/roundcube/branches/roundcubemail/"
+alias confdir="cd ~/public_html/roundcube/branches/roundcubemail/config/"
+alias olddir="cd ~/public_html/roundcube/roundcube4/src/"
+alias newdir="cd ~/public_html/roundcube/branches/roundcubemail/"
