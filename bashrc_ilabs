@@ -1,0 +1,16 @@
+#export statements
+export PATH=/filer/tmp2/contrib/bin:/usr/sbin:/sbin:/filer/tmp2/katie/bin/:$PATH
+export PKG_CONFIG_PATH=/filer/tmp2/contrib/lib/pkgconfig:$PKG_CONFIG_PATH
+
+#program shortcuts
+alias fire="firefox"
+alias fox="/filer/tmp2/contrib/bin/firefox"
+alias mp="/filer/tmp2/contrib/bin/mplayer"
+alias dp="/filer/tmp2/contrib/bin/linuxdcpp"
+alias cat="/bin/cat"
+
+#aliases for directory navigation
+alias filer="cd /filer/tmp2"
+alias contrib="cd /filer/tmp2/contrib;ls"
+alias media="cd /filer/tmp2/contrib/media;ls"
+alias mine="cd /filer/tmp2/katie/; ls"
