@@ -37,6 +37,7 @@ set pastetoggle=<F2>
 " set mouse=a
 set foldenable
 set foldmarker={,}
+set wrap lbr
 if &diff
 	colorscheme inkpot
 	highlight Normal ctermbg=none
