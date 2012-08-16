@@ -1,5 +1,5 @@
 #export statements
-export PATH=/filer/tmp2/contrib/bin:/usr/sbin:/sbin:/filer/tmp2/katie/bin/:$PATH
+export PATH=/usr/unsupported/bin:/filer/tmp2/contrib/bin:/usr/sbin:/sbin:/filer/tmp2/katie/bin/:$PATH
 export PKG_CONFIG_PATH=/filer/tmp2/contrib/lib/pkgconfig:$PKG_CONFIG_PATH
 
 #program shortcuts
