@@ -24,7 +24,7 @@ fi
 
 pushd dotfiles/ > /dev/null
 
-f=`pwd`
+f="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 if [ -z "$f" ] ; then
   # error; for some reason, the path is not accessible
   # to the script (e.g. permissions re-evaled after suid)
@@ -58,12 +58,12 @@ then
 	cp $f/ssh_config ~/.ssh/config
 fi
 
-IGNORE="bashrc|ssh|init|gitignore|README"
+IGNORE="bashrc|ssh|init|gitignore|README|.gitmodules"
 
 for file in $(git ls-files | egrep -v $IGNORE)
 do
 	echo "Installing $file"
-	if test ! -d `dirname ~/.$files`
+	if test ! -d `dirname ~/.$file`
 	then
 		mkdir -p `dirname ~/.$file`
 	fi
