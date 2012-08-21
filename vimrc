@@ -1,6 +1,7 @@
 "256 colors
 set t_Co=256
 
+call pathogen#infect()
 if &cp | set nocp | endif
 let s:cpo_save=&cpo
 set cpo&vim
