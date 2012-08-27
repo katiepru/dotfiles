@@ -35,6 +35,7 @@ set ignorecase
 set smartcase
 set number                     
 set pastetoggle=<F2>
+set backup
 " set mouse=a
 set foldenable
 set foldmarker={,}
