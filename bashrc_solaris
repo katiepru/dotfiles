@@ -11,8 +11,10 @@ function upload () {
 	else
 		repo=$2
 	fi
-	find ~/rpmbuild/ -name $1*.rpm | xargs rpm --resign
-	scp $(find ~/rpmbuild/ -name $1*.rpm) rpm:/rpm/CHECK_PEND.$repo
+	pushd ~/rpmbuild
+	find . -name $1*.rpm | xargs rpm --resign
+	scp $(find . -name $1*.rpm) rpm:/rpm/CHECK_PEND.$repo
+	popd
 }
 
 function cleanpath() {
