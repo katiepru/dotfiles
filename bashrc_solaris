@@ -14,3 +14,8 @@ function upload () {
 	find ~/rpmbuild/ -name $1*.rpm | xargs rpm --resign
 	scp $(find ~/rpmbuild/ -name $1*.rpm) rpm:/rpm/CHECK_PEND.$repo
 }
+
+function cleanpath() {
+	unset PATH
+	source /etc/profile
+}
