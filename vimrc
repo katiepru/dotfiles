@@ -36,6 +36,7 @@ set smartcase
 set number                     
 set pastetoggle=<F2>
 set backup
+set backupdir=~/.vim/backups
 " set mouse=a
 set foldenable
 set foldmarker={,}
