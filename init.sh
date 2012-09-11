@@ -74,6 +74,25 @@ do
 	ln -sf $f/$file ~/.$file
 done
 
+if ! [ -h .git/hooks/post-merge ]; then
+	echo "Installing post-merge hook"
+	hook=".git/hooks/post-merge"
+	echo "!#/usr/bin/env bash" > $hook
+	echo "cd $f" >> $hook
+	echo "git submodule init && git submodule update" >> $hook
+	#Should find a way to do this better
+	if ! [ -z $1 ]; then
+		echo "./init.sh $1" >> $hook
+	else
+		echo "./init.sh" >> $hook
+	fi
+
+	chmod 755 $hook
+
+	echo "Initializing submodules"
+	git submodule init && git submodule update
+fi
+
 popd > /dev/null
 popd > /dev/null
 
