@@ -8,3 +8,6 @@ Host git
 	Port 9922
 	User git
 	IdentityFile ~/.ssh/git_id_rsa
+Host rpi
+	ProxyCommand ssh sauron.rutgers.edu exec nc localhost 59113
+	User katie
