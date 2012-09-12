@@ -77,7 +77,7 @@ done
 if ! [ -h .git/hooks/post-merge ]; then
 	echo "Installing post-merge hook"
 	hook=".git/hooks/post-merge"
-	echo "!#/usr/bin/env bash" > $hook
+	echo "#!/usr/bin/env bash" > $hook
 	echo "cd $f" >> $hook
 	echo "git submodule init && git submodule update" >> $hook
 	#Should find a way to do this better
