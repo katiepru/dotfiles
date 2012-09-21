@@ -36,11 +36,13 @@ set smartcase
 set number                     
 set pastetoggle=<F2>
 
-set backup
-set backupdir=~/.vim/backups
+if version >= 703 
+	set backup
+	set backupdir=~/.vim/backups
 
-set undofile
-set undodir=~/.vim/undo
+	set undofile
+	set undodir=~/.vim/undo
+endif
 
 " set mouse=a
 set foldenable
