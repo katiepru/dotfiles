@@ -1,5 +1,6 @@
 #export statements
 export PATH="/usr/local/gnu/bin:$PATH"
+export TERM='xterm'
 
 #aliases for ls
 alias ls="/usr/local/gnu/bin/ls -h --color=always"
