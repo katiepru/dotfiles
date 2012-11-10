@@ -1,0 +1,164 @@
+#export statements
+export EDITOR=vim
+export TERM='xterm-256color'
+export PATH="$PATH:/sbin"
+
+#zsh options
+setopt PROMPT_SUBST
+setopt MULTIBYTE
+
+#autoload useful functions
+autoload -Uz compinit && compinit -u
+
+#completion styles
+#zstyle ':completion:*' completer _complete _match _approximate
+
+local nc="%{[00m%}"
+
+function parse_git_branch() {
+	local TEXT=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
+	local TEXT="$TEXT`parse_git_dirty`"
+	if [ "$TEXT" != "" ]; then
+		TEXT="[$TEXT]"
+	fi
+	echo $TEXT
+}
+
+function parse_git_dirty() {
+	local git_status="$(git status 2> /dev/null)"
+	local dirty=$(echo -n "${git_status}" 2> /dev/null | grep "modified:" &> /dev/null; echo $?)
+	local untracked=$(echo -n "${git_status}" 2> /dev/null | grep "Untracked files" &> /dev/null; echo $?)
+	local ahead=$(echo -n "${git_status}" 2> /dev/null | grep "Your branch is ahead of" &> /dev/null; echo $?)
+	local newfile=$(echo -n "${git_status}" 2> /dev/null | grep "new file:" &> /dev/null; echo $?)
+	local renamed=$(echo -n "${git_status}" 2> /dev/null | grep "renamed:" &> /dev/null; echo $?)
+	local bits=''
+	if [[ ${dirty} == "0" ]]; then
+		bits="${bits}⚡"
+	fi
+	if [[ ${untracked} == "0" ]]; then
+		bits="${bits}?"
+	fi
+	if [[ ${newfile} == "0" ]]; then
+		bits="${bits}+"
+	fi
+	if [[ ${ahead} == "0" ]]; then
+		bits="${bits}*"
+	fi
+	if [[ ${renamed} == "0" ]]; then
+		bits="${bits}>"
+	fi
+	echo "${bits}"
+}
+
+local return="%(?.❤.⏎%?)"
+
+local prompt_char="%(#.#.$)"
+
+if [[ $UID != 0 ]]; then
+	local name="%{[01;32m%}%n${nc}"
+else
+	local name="%{[38;5;1;01m%}%n${nc}"
+fi
+
+PROMPT="${name}%{[01;32m%}@%m${nc}:%{[01;34m%}%c${nc} %{[38;5;214;01m%}\`parse_git_branch\`${nc} ${prompt_char} %{[01;31m%}${return} ${nc}"
+
+#sync dotfiles
+function syncdot() {
+	pushd ~/dotfiles > /dev/null
+	git pull -q
+	popd > /dev/null
+}
+
+if [[ $UID != 0 ]]; then
+	syncdot
+fi
+
+function zshmod() {
+	ZSHDIR=`cat ~/.zshrc | head -n 1 | cut -d' ' -f2`
+	LOCALDIR=`cat ~/.zshrc | sed -n '2p' | cut -d' ' -f2`
+	DIR=""
+	IFS='/'
+	for word in $ZSHDIR; do
+		if [ "$word" != "zshrc" ] && [ "$word" != "" ]; then
+			DIR="$DIR/$word"
+		fi
+	done
+	IFS=" "
+	if [ "$1" == "main" ]; then
+		vim -c "set syn=sh" $ZSHDIR
+	elif [ "$1" == "local" ]; then
+		if [ "$LOCALDIR" == "" ]; then
+			echo -e "[01;31m There isn't a local zshrc [m"
+			return 2
+		else
+			vim -c "set syn=sh" $LOCALDIR
+		fi
+	elif [ "$1" == "real" ]; then
+		vim ~/.zshrc
+	elif [ "$1" == "help" ]; then
+		echo "Usage: zshmod main|local|real|help|<ext>"
+	else
+		if [ -f "$DIR/zshrc_$1" ]; then
+			vim -c "set syn=sh" $DIR/zshrc_$1
+		else
+			echo -e "[01;31m zshrc_$1 doesn't exist [m"
+			return 2
+		fi
+	fi
+}
+
+function swapkey() {
+	xmodmap -e 'keycode 66 = Caps_Lock' \
+	-e 'keycode 9 = Escape' \
+	-e 'remove Lock = Caps_Lock' \
+	-e 'keycode 9 = Caps_Lock' \
+	-e 'keycode 66 = Escape'
+}
+
+swapkey &> /dev/null
+
+function toplevel() {
+	TOP=`git rev-parse --show-toplevel`
+	if [ "$1" == "get" ]; then
+		echo $TOP
+	elif [ "$1" != "" ]; then
+		echo "Usage: toplevel [get]"
+		echo "cd to base dir of git repo"
+		echo "use get to print the name of base dir"
+	elif [ "$TOP" != "" ]; then
+		cd `git rev-parse --show-toplevel`
+	fi
+}
+
+#program shortcuts
+alias bashsave="source ~/.bashrc"
+alias vmod="vim ~/.vimrc"
+alias xmod="vim ~/.xinitrc"
+alias lock="xscreensaver-command -lock"
+
+#aliases for ls
+alias ls="ls --color=always"
+alias lsa="ls -a"
+alias lsd="ls --color=always -alh | grep ^d"
+alias lf="ls --color=always -lh | grep ^d"
+alias l="ls"
+alias s="l"
+alias sl="ls"
+alias la="ls -Alh"
+alias ll="ls -lh"
+
+#aliases for random ops
+alias cc="clear"
+alias sudo="sudo -E"
+
+#aliases for directory navigation
+alias ..="cd .."
+alias vi="vim"
+alias v="vim"
+alias me="cd ~;ls"
+
+#ssh aliases
+alias facade="ssh facade.rutgers.edu"
+alias ziti="ssh ziti.rutgers.edu"
+alias ravioli="ssh ravioli.rutgers.edu"
+alias sauron="ssh sauron.rutgers.edu"
