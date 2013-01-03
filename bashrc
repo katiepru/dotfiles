@@ -154,6 +154,7 @@ function toplevel() {
 }
 
 #virtualendwrapper thing from V
+[[ -z $WORKON_HOME ]] && export WORKON_HOME=~/.virtualenvs
 [[ -e "/usr/bin/virtualenvwrapper.sh" ]] && source /usr/bin/virtualenvwrapper.sh
 
 #program shortcuts
