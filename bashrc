@@ -153,6 +153,9 @@ function toplevel() {
 	fi
 }
 
+#virtualendwrapper thing from V
+[[ -e "/usr/bin/virtualenvwrapper.sh" ]] && source /usr/bin/virtualenvwrapper.sh
+
 #program shortcuts
 alias bashsave="source ~/.bashrc"
 alias vmod="vim ~/.vimrc"
