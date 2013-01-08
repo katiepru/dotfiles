@@ -58,6 +58,8 @@ else
 endif
 set cursorline
 set cursorcolumn
+highlight OverLength ctermbg=124 ctermfg=white
+match OverLength /\%81v.\+/
 highlight CursorLine cterm=bold ctermbg=17
 highlight CursorColumn cterm=none ctermbg=17
 cnoremap vb ConqueTermVSplit<Space>bash<cr>
