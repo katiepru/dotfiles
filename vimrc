@@ -55,6 +55,7 @@ if &diff
 else
 	colorscheme default
 	highlight Search ctermbg=3 ctermfg=15
+	highlight Folded ctermbg=black
 endif
 set cursorline
 set cursorcolumn
