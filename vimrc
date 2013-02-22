@@ -53,7 +53,8 @@ if &diff
 	highlight Normal ctermbg=none
 	highlight String ctermbg=none
 else
-	colorscheme default
+"	set background=light
+	colorscheme inkpot
 	highlight Search ctermbg=3 ctermfg=15
 	highlight Folded ctermbg=black
 endif
