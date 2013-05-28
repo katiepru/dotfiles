@@ -118,16 +118,7 @@ function swapkey() {
 swapkey &> /dev/null
 
 function toplevel() {
-	TOP=`git rev-parse --show-toplevel`
-	if [ "$1" == "get" ]; then
-		echo $TOP
-	elif [ "$1" != "" ]; then
-		echo "Usage: toplevel [get]"
-		echo "cd to base dir of git repo"
-		echo "use get to print the name of base dir"
-	elif [ "$TOP" != "" ]; then
-		cd `git rev-parse --show-toplevel`
-	fi
+	cd `git rev-parse --show-toplevel`
 }
 
 #program shortcuts
