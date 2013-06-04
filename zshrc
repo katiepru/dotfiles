@@ -73,29 +73,30 @@ if [[ $UID != 0 ]]; then
 	syncdot
 fi
 
-function zshmod() {
+function zmod() {
 	ZSHDIR=`cat ~/.zshrc | head -n 1 | cut -d' ' -f2`
 	LOCALDIR=`cat ~/.zshrc | sed -n '2p' | cut -d' ' -f2`
 	DIR=""
 	IFS='/'
+	echo $ZSHDIR
 	for word in $ZSHDIR; do
 		if [ "$word" != "zshrc" ] && [ "$word" != "" ]; then
 			DIR="$DIR/$word"
 		fi
 	done
 	IFS=" "
-	if [ "$1" == "main" ]; then
+	if [ "$1" = "main" ]; then
 		vim -c "set syn=sh" $ZSHDIR
-	elif [ "$1" == "local" ]; then
-		if [ "$LOCALDIR" == "" ]; then
+	elif [ "$1" = "local" ]; then
+		if [ "$LOCALDIR" = "" ]; then
 			echo -e "[01;31m There isn't a local zshrc [m"
 			return 2
 		else
 			vim -c "set syn=sh" $LOCALDIR
 		fi
-	elif [ "$1" == "real" ]; then
+	elif [ "$1" = "real" ]; then
 		vim ~/.zshrc
-	elif [ "$1" == "help" ]; then
+	elif [ "$1" = "help" ]; then
 		echo "Usage: zshmod main|local|real|help|<ext>"
 	else
 		if [ -f "$DIR/zshrc_$1" ]; then
@@ -105,6 +106,10 @@ function zshmod() {
 			return 2
 		fi
 	fi
+}
+
+function zsave() {
+	source ~/.zshrc
 }
 
 function swapkey() {

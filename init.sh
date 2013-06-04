@@ -32,8 +32,10 @@ if [ -z "$f" ] ; then
 fi
 
 unlink ~/.bashrc &> /dev/null
-echo "Adding main bashrc"
+unlink ~/.zshrc &> /dev/null
+echo "Adding main bashrc and zshrc"
 echo "source $f/bashrc" > ~/.bashrc
+echo "source $f/zshrc" > ~/.zshrc
 if [ "$1" != "" ]
 then
 	if [ -f $f/bashrc_$1 ]
@@ -42,6 +44,14 @@ then
 		echo "source $f/bashrc_$1" >> ~/.bashrc
 	else
 		echo "bashrc_$1 does not exist"
+		exit 2
+	fi
+	if [ -f $f/zshrc_$1 ]
+	then
+		echo "Adding zshrc_$1"
+		echo "source $f/zshrc_$1" >> ~/.zshrc
+	else
+		echo "zshrc_$1 does not exist"
 		exit 2
 	fi
 fi
@@ -58,7 +68,7 @@ then
 	cp $f/ssh_config ~/.ssh/config
 fi
 
-IGNORE="bashrc|ssh|init|gitignore|README|.gitmodules"
+IGNORE="bashrc|zshrc|ssh|init|gitignore|README|.gitmodules"
 
 for file in $(git ls-files | egrep -v $IGNORE)
 do
