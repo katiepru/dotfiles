@@ -44,7 +44,6 @@ then
 		echo "source $f/bashrc_$1" >> ~/.bashrc
 	else
 		echo "bashrc_$1 does not exist"
-		exit 2
 	fi
 	if [ -f $f/zshrc_$1 ]
 	then
@@ -52,7 +51,6 @@ then
 		echo "source $f/zshrc_$1" >> ~/.zshrc
 	else
 		echo "zshrc_$1 does not exist"
-		exit 2
 	fi
 fi
 ln -s ~/.bashrc ~/.bash_profile
