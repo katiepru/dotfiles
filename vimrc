@@ -70,3 +70,7 @@ map nt :NERDTree .<cr>
 imap jj <Esc>`^
 autocmd FileType make setlocal noexpandtab
 autocmd FileType s set ft=gas
+
+set shiftwidth=2
+set tabstop=2
+set expandtab
