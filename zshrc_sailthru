@@ -1,0 +1,7 @@
+# RFC Aliases
+alias rfc='php ~/devtools/workflow/rfc.php '
+alias rfc-complete='php ~/devtools/workflow/rfc.php --complete '
+alias rfc-review='php ~/devtools/workflow/rfc.php --review '
+
+#FogBugz Aliases
+alias create='php ~/devtools/workflow/create.php'
