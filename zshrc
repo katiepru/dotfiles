@@ -127,6 +127,10 @@ function toplevel() {
 	cd `git rev-parse --show-toplevel`
 }
 
+# rbenv
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+
 #program shortcuts
 alias bashsave="source ~/.bashrc"
 alias vmod="vim ~/.vimrc"
