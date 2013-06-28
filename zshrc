@@ -69,9 +69,9 @@ function syncdot() {
 	popd > /dev/null
 }
 
-if [[ $UID != 0 ]]; then
-	syncdot
-fi
+#if [[ $UID != 0 ]]; then
+#	syncdot
+#fi
 
 function zmod() {
 	ZSHDIR=`cat ~/.zshrc | head -n 1 | cut -d' ' -f2`
