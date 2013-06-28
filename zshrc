@@ -11,6 +11,7 @@ setopt MULTIBYTE
 autoload -Uz compinit && compinit -u
 
 #completion styles
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 #zstyle ':completion:*' completer _complete _match _approximate
 
 local nc="%{[00m%}"
