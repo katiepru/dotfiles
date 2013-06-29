@@ -1,76 +1,327 @@
-"256 colors
-set t_Co=256
+"-------------------------------------------------------------------------------
+" Important
+"-------------------------------------------------------------------------------
+set nocompatible             " Disable vi-compatibility
 
-call pathogen#infect()
-if &cp | set nocp | endif
-let s:cpo_save=&cpo
-set cpo&vim
-nmap gx <Plug>NetrwBrowseX
-nnoremap <silent> <Plug>NetrwBrowseX :call netrw#NetrwBrowseX(expand("<cWORD>"),0)
-let &cpo=s:cpo_save
-unlet s:cpo_save
-" for command mode
-nmap <S-Tab> <<
-" for insert mode
-imap <S-Tab> <Esc><<i
-syntax on
-set backspace=indent,eol,start
-set cscopeprg=/usr/bin/cscope
-set cscopetag
-set cscopeverbose
-set fileencodings=utf-8,latin1
-set helplang=en
-set history=200
-set hlsearch
-set ruler
-set viminfo='20,\"50
-set nocompatible
-set autoindent
-set smartindent
-set tabstop=4
-set shiftwidth=4
-set showmatch
-set virtualedit=onemore
-set ignorecase
-set smartcase
-set number                     
-set pastetoggle=<F2>
 
-if version >= 703 
-	set backup
-	set backupdir=~/.vim/backups
+"-------------------------------------------------------------------------------
+" Load plugins and set up mappings and options
+"-------------------------------------------------------------------------------
+" Minimum version for plugins
+if version >= 702
+    let s:vundle_init=0
+    let s:vundle_readme=expand('~/.vim/bundle/vundle/README.md')
+    if !filereadable(s:vundle_readme)
+        echo "Installing Vundle..\n"
+        silent !mkdir -p ~/.vim/bundle
+        silent !git clone git://github.com/gmarik/vundle ~/.vim/bundle/vundle
+        let s:vundle_init=1
+    endif
 
-	set undofile
-	set undodir=~/.vim/undo
+    " Setup vundle
+    filetype off
+    set rtp+=~/.vim/bundle/vundle/
+    let $GIT_SSL_NO_VERIFY = 'true'        " Don't use SSL
+    let g:vundle_default_git_proto = 'git' " Use git:// over http://
+    call vundle#rc()
+    Bundle 'gmarik/vundle'
+
+    " Plugin bundles
+    Bundle 'tpope/vim-sensible'
+    Bundle 'tpope/vim-fugitive'
+    Bundle 'tpope/vim-surround'
+    Bundle 'scrooloose/syntastic'
+    Bundle 'scrooloose/nerdtree'
+    Bundle 'scrooloose/nerdcommenter'
+    Bundle 'Lokaltog/vim-easymotion'
+    Bundle 'kien/ctrlp.vim'
+    Bundle 'gregsexton/MatchTag'
+    Bundle 'godlygeek/tabular'
+    Bundle 'editorconfig/editorconfig-vim'
+    Bundle 'honza/vim-snippets'
+
+    " Use different plugins depending on python support
+    if (has('python') || has('python3'))
+        " Grab the python version if we don't already have it
+        if !exists('g:Python_System_Ver')
+            let g:Python_System_Ver = system(
+                        \ 'python -V 2>&1 | cut -d" " -f2 | sed "s/\.//g"')
+        endif
+        " Only use python plugins if we have 2.6.0 or newer
+        if g:Python_System_Ver >= 260
+            Bundle 'SirVer/ultisnips'
+            Bundle 'sjl/gundo.vim'
+            Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+        else
+            Bundle 'tomtom/tlib_vim'
+            Bundle 'MarcWeber/vim-addon-mw-utils'
+            Bundle 'garbas/vim-snipmate'
+            Bundle 'Lokaltog/vim-powerline'
+        endif
+    endif
+
+    if s:vundle_init
+        echo "Installing Bundles...\n"
+        :BundleInstall
+    endif
+
+    " Name used by some snippets
+    let g:snips_author = 'Katie Poskaitis'
+
+    " Bring up NERDtree
+    map  <Leader>n :NERDTreeToggle<CR>
+
+    " LaTex options
+    let g:tex_flavor='latex'
+    let g:Tex_DefaultTargetFormat='pdf'
+
+    " delimitMate options
+    let delimitMate_expand_space = 1
+    let delimitMate_expand_cr    = 1
 endif
 
-" set mouse=a
-set foldenable
-set foldmarker={,}
-set wrap lbr
+" Turn filetype back on
+filetype plugin indent on
+
+"-------------------------------------------------------------------------------
+" Movement
+"-------------------------------------------------------------------------------
+" Quick escape
+inoremap kj <Esc>
+
+" Easier navigation on wrapped lines
+" nnoremap j gj
+" nnoremap k gk
+vnoremap j gj
+vnoremap k gk
+
+" Time in milliseconds to wait for next key press
+set timeoutlen=500
+
+
+"-------------------------------------------------------------------------------
+" Display and messages
+"-------------------------------------------------------------------------------
+set number                " Show Line Numbers
+syn on                    " Use syntax highlighting
+set nowrap                " Don't wrap lines
+set showmatch             " Show matching brackets
+set showcmd               " Show (partial) command in status line
+set ttyfast               " Faster updates
+set hidden                " Hide buffellumrs when they are abandoned
+set laststatus=2          " Always show the statusline
+set encoding=utf-8        " Necessary to show Unicode glyphs
+set scrolloff=5           " Show 5 lines of context
+set shortmess=filnxtToOI  " Default shortmess += I. Removes vim intro message
+set foldenable            " Folds things
+set foldmarker={,}        " Visible fold marker
+
+
+"-------------------------------------------------------------------------------
+" Tabs and Indent
+"-------------------------------------------------------------------------------
+set smarttab        " changes what value is used for tabs
+set shiftround      " Round indent to multiple of 'shiftwidth' for < & >
+set autoindent      " Auto indent when starting a new line
+set shiftwidth=4    " number of spaces used to represent autoindents
+set tabstop=4       " number of spaces a tab is represented by
+set softtabstop=4   " how tabs behave in editing operations
+set expandtab       " expand tabs to spaces
+
+
+"-------------------------------------------------------------------------------
+" Searching
+"-------------------------------------------------------------------------------
+set hlsearch        " highlight searches
+set ignorecase      " Do case insensitive matching
+set smartcase       " Do smart case matching
+
+
+"-------------------------------------------------------------------------------
+" Editing
+"-------------------------------------------------------------------------------
+set backspace=indent,eol,start   " backspace over everything
+set ofu=syntaxcomplete#Complete  " enable omnicomplete
+
+
+"-------------------------------------------------------------------------------
+" File reading and writing
+"-------------------------------------------------------------------------------
+set modeline      " Read modlines for file specific settings
+set modelines=5   " Default number of lines to check
+set autowrite     " Automatically save before commands like :next and :make
+set autoread      " Automatically
+
+
+"-------------------------------------------------------------------------------
+" Backup and undo
+"-------------------------------------------------------------------------------
+" Make backup dir if it doesn't exist
+if !isdirectory(expand('~/.vim/backups'))
+    silent !mkdir -p ~/.vim/backups
+endif
+
+set backup                   " Automatic backups
+set backupdir=~/.vim/backups " Where to save the automatic backups
+
+" Older versions don't have this
+if has('persistent_undo')
+    " Make undo dir if it doesn't exist
+    if !isdirectory(expand('~/.vim/undo'))
+        silent !mkdir -p ~/.vim/undo
+    endif
+
+    set undofile            " Enable persistent undo history
+    set undodir=~/.vim/undo " Directory to save undo history in
+    set undolevels=1000     " Max number of undos that can be done
+    set undoreload=10000    " Max number of lines to save for undo
+endif
+
+
+"-------------------------------------------------------------------------------
+" Toggle mappings
+"-------------------------------------------------------------------------------
+" Toggle line numbers
+map <F1> :set number!<CR>
+
+" Toggle relative line numbers
+map <F2> :call NumberToggle()<CR>
+
+" Toggle paste mode
+set pastetoggle=<F3>
+
+" Toggle list
+map <F4> :set list!<CR>
+
+" Toggle crosshairs
+map <F5> :set cursorcolumn! cursorline!<CR>
+
+" Toggle warn when going over 80 columns
+map <F6> :call ToggleRightWarn()<CR>
+
+" Toggle spell checking
+map <F7> :set spell!<CR>
+
+" Toggle tab width
+map <F8> :call ToggleTabs()<CR>
+
+
+"-------------------------------------------------------------------------------
+" Misc. Mappings
+"-------------------------------------------------------------------------------
+" Clear highlighting
+noremap <Leader><Space> :nohl<CR>
+
+" Gain root privs if needed to write
+cnoremap w!! %!sudo tee % > /dev/null %
+
+" Hex mode
+nnoremap <Leader>hon :%!xxd<CR>
+nnoremap <Leader>hof :%!xxd -r<CR>
+
+" Trim all trailing whitespace
+noremap <Leader>ws :%s/\s\+$//g<CR><C-o>
+
+
+"-------------------------------------------------------------------------------
+" Helper functions
+"-------------------------------------------------------------------------------
+" Function to toggle relative numbers
+function! NumberToggle()
+    if(&relativenumber == 1)
+        set number
+    else
+        set relativenumber
+    endif
+endfunc
+
+" Function to toggle warning when going over 80 columns
+let g:RightWarn=0
+function! ToggleRightWarn()
+    if(g:RightWarn == 0)
+        match Error /\%81v.\+/
+        set colorcolumn=81
+        let g:RightWarn = 1
+    else
+        match None /\%81v.\+/
+        set colorcolumn=
+        let g:RightWarn = 0
+    endif
+endfunc
+
+" Function to toggle sw and ts between 2 and 4
+let b:TabSpace=4
+function! ToggleTabs()
+    if(!exists(b:TabSpace) || b:TabSpace == 4)
+        set sts=2 ts=2 sw=2
+        let b:TabSpace=2
+    else
+        set sts=4 ts=4 sw=4
+        let b:TabSpace=4
+    endif
+endfunc
+
+
+"-------------------------------------------------------------------------------
+" Autocmd settings
+"-------------------------------------------------------------------------------
+if has("autocmd")
+
+    augroup hlToggle
+        au!
+        " Remove highlighting and trailing whitespace warning in insert mode
+        au InsertEnter * set nohlsearch | match None /\s\+$/
+        au InsertLeave * set hlsearch | match TrailingWhitespace /\s\+$/
+    augroup end
+
+    augroup codingConventions
+        au!
+        " Make Python follow PEP8
+        au FileType python
+            \ set expandtab textwidth=79 |
+            \ let b:TabSpace=2 |
+            \ cal ToggleTabs()
+
+        " Ruby stuff
+        au FileType ruby
+            \ set expandtab |
+            \ let b:TabSpace=4 |
+            \ cal ToggleTabs()
+    augroup end
+
+    " Set spell checking for certain filetypes
+    augroup writtenTextFiletypes
+        au!
+        au FileType gitcommit,tex,markdown set spell
+        au FileType tex,markdown set textwidth=80
+    augroup end
+
+endif
+
+
+"-------------------------------------------------------------------------------
+" Colorscheme and theming
+"-------------------------------------------------------------------------------
+if &t_Co > 8
+    let g:Powerline_symbols = 'compatible'
+    let g:inkpot_black_background = 1
+    "let g:rehash256 = 1
+    set cursorline
+    set cursorcolumn
+endif
+
+colorscheme inkpot
+highlight CursorLine cterm=bold ctermbg=17
+highlight CursorColumn cterm=none ctermbg=17
+
 if &diff
-	colorscheme inkpot
 	highlight Normal ctermbg=none
 	highlight String ctermbg=none
 else
-"	set background=light
-	colorscheme inkpot
 	highlight Search ctermbg=3 ctermfg=15
 	highlight Folded ctermbg=black
 endif
-set cursorline
-set cursorcolumn
-highlight OverLength ctermbg=124 ctermfg=white
-match OverLength /\%81v.\+/
-highlight CursorLine cterm=bold ctermbg=17
-highlight CursorColumn cterm=none ctermbg=17
-cnoremap vb ConqueTermVSplit<Space>bash<cr>
-cnoremap sb ConqueTermSplit<Space>bash<cr>
-map nt :NERDTree .<cr>
-imap jj <Esc>`^
-autocmd FileType make setlocal noexpandtab
-autocmd FileType s set ft=gas
 
-set shiftwidth=2
-set tabstop=2
-set expandtab
+" Show trailing whitespace
+highlight TrailingWhitespace ctermbg=124 ctermfg=white
+match TrailingWhitespace /\s\+$/
