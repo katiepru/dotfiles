@@ -3,11 +3,8 @@ Host *
 	ControlPath /tmp/ssh_mux_%h_%p_%r
 Host *.rutgers.edu
 	user katiepru
-Host git
-	Hostname 192.168.160.222
-	Port 9922
-	User git
-	IdentityFile ~/.ssh/git_id_rsa
+Host github.com
+    user git
 Host rpi
 	ProxyCommand ssh sauron.rutgers.edu exec nc localhost 59113
 	User katie
