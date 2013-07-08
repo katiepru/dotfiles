@@ -104,7 +104,7 @@ set timeoutlen=500
 "-------------------------------------------------------------------------------
 set number                " Show Line Numbers
 syn on                    " Use syntax highlighting
-set nowrap                " Don't wrap lines
+" set nowrap                " Don't wrap lines
 set showmatch             " Show matching brackets
 set showcmd               " Show (partial) command in status line
 set ttyfast               " Faster updates
@@ -311,8 +311,13 @@ if &t_Co > 8
 endif
 
 colorscheme inkpot
+
+" Crosshairs
 highlight CursorLine cterm=bold ctermbg=17
 highlight CursorColumn cterm=none ctermbg=17
+
+"Color column
+highlight ColorColumn cterm=none ctermbg=124
 
 if &diff
 	highlight Normal ctermbg=none
