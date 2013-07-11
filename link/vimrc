@@ -52,6 +52,7 @@ if version >= 702
             Bundle 'SirVer/ultisnips'
             Bundle 'sjl/gundo.vim'
             Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+            Bundle 'jmcantrell/vim-virtualenv'
         else
             Bundle 'tomtom/tlib_vim'
             Bundle 'MarcWeber/vim-addon-mw-utils'
