@@ -251,14 +251,11 @@ function! ToggleRightWarn()
 endfunc
 
 " Function to toggle sw and ts between 2 and 4
-let b:TabSpace=4
 function! ToggleTabs()
-    if(!exists(b:TabSpace) || b:TabSpace == 4)
+    if(&ts == 4)
         set sts=2 ts=2 sw=2
-        let b:TabSpace=2
     else
         set sts=4 ts=4 sw=4
-        let b:TabSpace=4
     endif
 endfunc
 
@@ -279,15 +276,11 @@ if has("autocmd")
         au!
         " Make Python follow PEP8
         au FileType python
-            \ set expandtab textwidth=79 |
-            \ let b:TabSpace=2 |
-            \ cal ToggleTabs()
+            \ set expandtab textwidth=79
 
         " Ruby stuff
         au FileType ruby
-            \ set expandtab |
-            \ let b:TabSpace=4 |
-            \ cal ToggleTabs()
+            \ set expandtab ts=2 sw=2
     augroup end
 
     " Set spell checking for certain filetypes
