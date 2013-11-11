@@ -163,3 +163,6 @@ alias facade="ssh facade.rutgers.edu"
 alias ziti="ssh ziti.rutgers.edu"
 alias ravioli="ssh ravioli.rutgers.edu"
 alias sauron="ssh sauron.rutgers.edu"
+
+#Aliases for LaTeX
+alias texclean="rm -rf *pdf *aux *log"
