@@ -39,6 +39,7 @@ if version >= 702
     Bundle 'godlygeek/tabular'
     Bundle 'editorconfig/editorconfig-vim'
     Bundle 'honza/vim-snippets'
+    Bundle 'fatih/vim-go'
 
     " Use different plugins depending on python support
     if (has('python') || has('python3'))
